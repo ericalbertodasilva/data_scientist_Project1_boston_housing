@@ -59,9 +59,10 @@ def evaluate(results, accuracy, f1):
       - f1: The score for the naive predictor
     """
   
+
+
     # Create figure
     fig, ax = pl.subplots(2, 3, figsize = (11,7))
-
     # Constants
     bar_width = 0.3
     colors = ['#A00000','#00A0A0','#00A000']
@@ -70,13 +71,15 @@ def evaluate(results, accuracy, f1):
     for k, learner in enumerate(results.keys()):
         for j, metric in enumerate(['train_time', 'acc_train', 'f_train', 'pred_time', 'acc_test', 'f_test']):
             for i in np.arange(3):
-                
                 # Creative plot code
-                ax[j//3, j%3].bar(i+k*bar_width, results[learner][i][metric], width = bar_width, color = colors[k])
-                ax[j//3, j%3].set_xticks([0.45, 1.45, 2.45])
-                ax[j//3, j%3].set_xticklabels(["1%", "10%", "100%"])
-                ax[j//3, j%3].set_xlabel("Training Set Size")
-                ax[j//3, j%3].set_xlim((-0.1, 3.0))
+                axis1=int(j/3)
+                axis2=int(j%3)
+                ax[axis1][axis2].bar(i+k*bar_width, results[learner][i][metric], width = bar_width, color = colors[k])
+                ax[axis1][axis2].set_xticks([0.45, 1.45, 2.45])
+                ax[axis1][axis2].set_xticklabels(["1%", "10%", "100%"])
+                ax[axis1][axis2].set_xlabel("Training Set Size")
+                ax[axis1][axis2].set_xlim((-0.1, 3.0))
+
     
     # Add unique y-labels
     ax[0, 0].set_ylabel("Time (in seconds)")
@@ -106,7 +109,7 @@ def evaluate(results, accuracy, f1):
     ax[1, 1].set_ylim((0, 1))
     ax[1, 2].set_ylim((0, 1))
 
-    # Create patches for the legend
+    #Create patches for the legend
     patches = []
     for i, learner in enumerate(results.keys()):
         patches.append(mpatches.Patch(color = colors[i], label = learner))
@@ -140,4 +143,4 @@ def feature_plot(importances, X_train, y_train):
     
     pl.legend(loc = 'upper center')
     pl.tight_layout()
-    pl.show()
+    pl.show()  
